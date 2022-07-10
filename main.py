@@ -30,7 +30,8 @@ def main():
         print_battles()
         print_current_hand()
         selected_card = get_input_card()
-        print(selected_card)
+        selected_index = get_input_battle_index()
+        play_card(selected_card, selected_index)
 
 
 def print_battles():
@@ -39,19 +40,29 @@ def print_battles():
 
 
 def print_current_hand():
-    global current_player_index
     print(players[current_player_index])
 
 
 def get_input_card() -> Card:
-    global current_player_index
     hand: Hand = players[current_player_index]
-    card_index = input_handler.get_int_in_range(1, len(hand) + 1)
+    card_index = input_handler.get_int_in_range(1, len(hand) + 1, "enter index of card you want to play: ")
 
     return hand.pop(card_index)
 
+
 def get_input_battle_index() -> int:
-    
+    valid_indexes = []
+    for i, skirmish in enumerate(battles):
+        if skirmish.winner is None:
+            valid_indexes.append(i)
+
+    index = input_handler.get_int_in_list(valid_indexes, "")
+    return index
+
+
+def play_card(card: Card, battle_index: int) -> None:
+    battles[battle_index].add_card(card, current_player_index)
+
 
 def get_winner() -> Optional[int]:
     global battles
