@@ -40,7 +40,9 @@ def main():
 
 def print_battles():
     for i, skirmish in enumerate(battles):
-        print(f"[{i + 1}] {skirmish}")
+        flag_slot_0 = "!" if skirmish.winner == 0 else " "
+        flag_slot_1 = "!" if skirmish.winner == 1 else " "
+        print(f"[{i + 1}] {flag_slot_0} {skirmish} {flag_slot_1}")
 
 
 def print_current_hand():
