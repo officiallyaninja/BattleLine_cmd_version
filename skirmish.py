@@ -45,8 +45,7 @@ class Skirmish:
             return self.winner
 
         return None
-        # TODO: implement this shit
-        raise NotImplementedError()
+        # TODO: implement calculating if a battle is "mathematically" won/lost
 
     def add_card(self, card: Card, player: int) -> None:
         self[player].append(card)

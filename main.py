@@ -21,7 +21,8 @@ battles: List[Skirmish] = [Skirmish() for _ in range(9)]
 current_player_index: int = 1
 
 
-# Actual game loop
+# Main function
+
 
 def main():
     global current_player_index
@@ -32,6 +33,9 @@ def main():
 
         selected_card, selected_index = get_inputs()
         play_card(selected_card, selected_index)
+
+
+# Helper functions
 
 
 def print_battles():
