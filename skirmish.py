@@ -50,16 +50,22 @@ class Skirmish:
         for cards_for_skirmish in itertools.combinations(possible_cards, sum(available_slots)):
             for cards_for_squad_0 in itertools.combinations(cards_for_skirmish, available_slots[0]):
                 cards_for_squad_1 = [card for card in cards_for_skirmish if card not in cards_for_squad_0]
-                copy = self.copy()
-                copy.add_cards(cards_for_squad_0, 0)
-                copy.add_cards(cards_for_squad_1, 1)
+                for i in range(2):
+                    copy = self.copy()
+                    if i == 0:
+                        copy.add_cards(cards_for_squad_0, 0)
+                        copy.add_cards(cards_for_squad_1, 1)
+                    else:  # i == 1
+                        copy.add_cards(cards_for_squad_1, 1)
+                        copy.add_cards(cards_for_squad_0, 0)
 
-                winner = copy.__get_winner_from_full_squads()
+                    winner = copy.__get_winner_from_full_squads()
 
-                if prospective_winner is None:
-                    prospective_winner = winner
-                if prospective_winner != winner:
-                    return None
+                    if prospective_winner is None:
+                        prospective_winner = winner
+                    if prospective_winner != winner:
+                        return None
+
 
         self.winner = prospective_winner
         return self.winner
@@ -68,6 +74,7 @@ class Skirmish:
         new_skirmish = Skirmish()
         new_skirmish.squads = (self[0].copy(), self[1].copy())
         new_skirmish.first = self.first
+        new_skirmish.winner = self.winner
         return new_skirmish
 
     def add_card(self, card: Card, player: int) -> None:

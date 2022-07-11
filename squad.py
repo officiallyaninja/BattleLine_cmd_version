@@ -70,6 +70,7 @@ class Squad:
     def copy(self) -> Squad:
         new_squad = Squad()
         new_squad.cards = self.cards.copy()
+        new_squad.max_size = self.max_size
         return new_squad
 
     def __len__(self):
