@@ -3,7 +3,7 @@ import random
 
 import input_handler
 from skirmish import Skirmish
-from card import Card
+from card import Card, Color
 from hand import Hand
 
 # initial setup
@@ -26,6 +26,7 @@ current_player_index: int = 1
 
 def main():
     global current_player_index
+
     while get_winner() is None:  # this line causes calculation of "provable wins"
         current_player_index = (current_player_index + 1) % 2
         print_battles()
@@ -67,10 +68,10 @@ def get_input_card() -> Card:
 def get_input_battle_index() -> int:
     valid_inputs = []
     for i, skirmish in enumerate(battles):
-        if skirmish.winner is None:
+        if skirmish.winner is None and not skirmish[current_player_index].is_full():
             valid_inputs.append(i + 1)
 
-    index = input_handler.get_int_in_list(valid_inputs, "enter skirmish you would like to play card to") - 1
+    index = input_handler.get_int_in_list(valid_inputs, "enter skirmish you would like to play card to: ") - 1
     return index
 
 
@@ -80,8 +81,6 @@ def play_card(card: Card, battle_index: int) -> None:
 
 
 def get_winner() -> Optional[int]:
-    global battles
-
     winners: List[int] = list(map(lambda x: x.get_winner(get_public_cards(battles)), battles))
     for player_index in [0, 1]:
         if winners.count(player_index) >= 5:

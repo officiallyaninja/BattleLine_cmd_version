@@ -9,10 +9,10 @@ import card
 
 
 class Formation(Enum):
-    NIL = 0,
+    NIL = 0
     STRAIGHT = 1
-    FLUSH = 2,
-    THREE_OF_A_KIND = 3,
+    FLUSH = 2
+    THREE_OF_A_KIND = 3
     STRAIGHT_FLUSH = 4
 
 
@@ -35,6 +35,10 @@ class Squad:
                 self.cards[i] = card_
                 return
         raise CollectionFullError()
+
+    def add_cards(self, cards: List[card]):
+        for card_ in cards:
+            self.append(card_)
 
     def is_full(self):
         return len(self) == self.max_size
@@ -63,6 +67,11 @@ class Squad:
         else:
             return Formation.NIL
 
+    def copy(self) -> Squad:
+        new_squad = Squad()
+        new_squad.cards = self.cards.copy()
+        return new_squad
+
     def __len__(self):
         return len(list(filter(lambda x: x is not None, self.cards)))
 
@@ -77,3 +86,5 @@ class Squad:
 
     def __getitem__(self, key):
         return self.cards[key]
+
+
