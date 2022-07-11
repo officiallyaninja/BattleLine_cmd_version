@@ -1,3 +1,4 @@
+import os
 from typing import Tuple, List, Optional
 import random
 
@@ -25,6 +26,7 @@ current_player_index: int = 1
 
 
 def main():
+    os.system("cls")
     global current_player_index
 
     while get_winner() is None:  # this line causes calculation of "provable wins"
@@ -34,7 +36,13 @@ def main():
 
         selected_card, selected_index = get_inputs()
         play_card(selected_card, selected_index)
+        input()
+        os.system("cls")
 
+    print("GAME IS OVER!")
+    print(f"player {get_winner() + 1} has won!!! ")
+    print_battles()
+    input("press enter to close")
 
 # Helper functions
 
@@ -60,8 +68,8 @@ def get_inputs() -> Tuple[Card, int]:
 
 def get_input_card() -> Card:
     hand: Hand = players[current_player_index]
-    card_index = input_handler.get_int_in_range(1, len(hand) + 1, "enter index of card you want to play: ") - 1
-
+    # card_index = input_handler.get_int_in_range(1, len(hand) + 1, "enter index of card you want to play: ") - 1
+    card_index = random.randint(0, len(hand) - 1)
     return hand.pop(card_index)
 
 
@@ -71,7 +79,9 @@ def get_input_battle_index() -> int:
         if skirmish.winner is None and not skirmish[current_player_index].is_full():
             valid_inputs.append(i + 1)
 
-    index = input_handler.get_int_in_list(valid_inputs, "enter skirmish you would like to play card to: ") - 1
+    #  index = input_handler.get_int_in_list(valid_inputs, "enter skirmish you would like to play card to: ") - 1
+    index = random.choice(valid_inputs) - 1
+    print(index)
     return index
 
 
@@ -86,7 +96,7 @@ def get_winner() -> Optional[int]:
         if winners.count(player_index) >= 5:
             return player_index
         for i in range(2, len(battles)):
-            if battles[i] == battles[i - 1] == battles[i - 2] == player_index:
+            if battles[i].winner == battles[i - 1].winner == battles[i - 2].winner == player_index:
                 return player_index
 
 

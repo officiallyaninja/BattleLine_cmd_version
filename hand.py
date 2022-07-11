@@ -8,7 +8,7 @@ class Hand:
         self.cards: List[Card] = []
 
     def draw_card(self, deck: List[Card]):
-        if len(deck) >= 0:
+        if len(deck) > 0:
             self.cards.append(deck.pop())
         self.sort()
 
